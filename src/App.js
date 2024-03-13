@@ -22,6 +22,8 @@ function Main() {
   const [currentPage, setCurrentPage] = useState('home');
   const [csvFile, setCsvFile] = useState(null);
   const [modelOutput, setModelOutput] = useState(null);
+  const [loading, setLoading] = useState(false); // Added loading state
+
 
   // Function to handle page change
   const handlePageChange = (page) => {
@@ -42,25 +44,35 @@ function Main() {
 
   // Function to run the model
   const runModel = () => {
-    // Send the CSV data to the Flask server to run the model
-    const formData = new FormData();
-    formData.append('file', csvFile);
+    // Show loading state
+    setLoading(true);
 
-    fetch('/run-model', {
-      method: 'POST',
-      body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.error) {
-        setModelOutput(data.error);
-      } else {
-        setModelOutput(data.model_output);
-      }
-    })
-    .catch(error => {
-      setModelOutput('Error running model: ' + error.message);
-    });
+    // Simulating model run with setTimeout
+    setTimeout(() => {
+      // Hide loading state
+      setLoading(false);
+      // Set success message
+      setModelOutput('Success');
+    }, 2000); // Simulating 2 seconds delay
+
+    // Uncomment the below code when integrating with actual model API
+    // const formData = new FormData();
+    // formData.append('file', csvFile);
+    // fetch('/run-model', {
+    //   method: 'POST',
+    //   body: formData
+    // })
+    // .then(response => response.json())
+    // .then(data => {
+    //   if (data.error) {
+    //     setModelOutput(data.error);
+    //   } else {
+    //     setModelOutput('Success');
+    //   }
+    // })
+    // .catch(error => {
+    //   setModelOutput('Error running model: ' + error.message);
+    // });
   };
 
   // Render content based on the current page
